@@ -1,7 +1,7 @@
-SECRET_KEY = "WINDAH_BASUDARA"
+SECRET_KEY = "APA"
 
 # MongoDB
-MONGODB_CONNECTION_STRING = "mongodb+srv://skinnymilow_db_user:WindahBasudarar@cluster0.yr1qijj.mongodb.net/?appName=Cluster0"
+MONGODB_CONNECTION_STRING = "#"
 MONGODB_DATABASE_NAME = "master-menpro"
 MONGODB_COLLECTION_PRODUCTS = "master_product"
 MONGODB_COLLECTION_PRODUCTS_COME = "master_supplier"

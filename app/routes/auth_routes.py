@@ -155,7 +155,7 @@ def send_reset_email(to_email, reset_link):
 
     # SMTP Gmail (Pastikan pakai App Password)
     with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
-        server.login("billalcahya@gmail.com", "ahtr ykhw usxv pwrn")
+        server.login("#", "#")
         server.send_message(msg)
 
 
