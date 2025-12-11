@@ -1,0 +1,13 @@
+SECRET_KEY = "WINDAH_BASUDARA"
+
+# MongoDB
+MONGODB_CONNECTION_STRING = "mongodb+srv://skinnymilow_db_user:WindahBasudarar@cluster0.yr1qijj.mongodb.net/?appName=Cluster0"
+MONGODB_DATABASE_NAME = "master-menpro"
+MONGODB_COLLECTION_PRODUCTS = "master_product"
+MONGODB_COLLECTION_PRODUCTS_COME = "master_supplier"
+MONGODB_COLLECTION_PRODUCTS_OUT = "master_supplier_out"
+MONGODB_COLLECTION_USER = "master_karyawan"
+
+# Auth DB
+MONGO_AUTH_DATABASE = "auth_db"
+MONGODB_COLLECTION_SESSIONS = "sessions" 

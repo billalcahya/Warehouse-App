@@ -1,0 +1,10 @@
+gunicorn
+eventlet
+Flask-RESTful
+requests
+Flask-Cors
+flask-session
+flask
+pymongo 
+PyJWT
+black

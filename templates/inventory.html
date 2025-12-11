@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Halaman Inventory Supply</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/inventory.css') }}"
+    />
+  </head>
+  <body class="bg-gray-50">
+    <!-- Top Navigation Bar -->
+    <div class="bg-white shadow-sm border-b border-gray-200">
+      <div class="px-6 py-4 flex items-center justify-between">
+        <div class="flex items-center space-x-3">
+          <i class="fas fa-cube text-blue-600 text-xl"></i>
+          <h1 class="text-xl font-bold text-gray-900">
+            Manajemen Produk Gudang
+          </h1>
+        </div>
+        <div class="flex items-center space-x-4">
+          <div class="flex items-center space-x-2 text-gray-700">
+            <i class="fas fa-user-circle text-blue-600"></i>
+            <span id="usernameDisplay" class="font-medium"
+              >{{ username }} - {{ role }}</span
+            >
+          </div>
+          <button
+            id="logoutBtn"
+            class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg text-sm font-medium transition-colors"
+          >
+            Logout
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex h-[calc(100vh-80px)]">
+      <!-- Sidebar -->
+      <div class="w-64 bg-white border-r border-gray-200 overflow-y-auto">
+        <div class="py-4">
+          <nav class="space-y-1 px-3">
+            <a
+              href="/dashboard_analytics"
+              class="sidebar-item flex items-center px-4 py-3 rounded-lg text-gray-700 hover:text-gray-900"
+            >
+              <i class="fas fa-tachometer-alt mr-3 text-gray-500"></i>
+              <span>Dashboard</span>
+            </a>
+
+            <a
+              href="/dashboard"
+              class="sidebar-item flex items-center px-4 py-3 rounded-lg text-gray-700 hover:text-gray-900"
+            >
+              <i class="fas fa-box mr-3 text-gray-500"></i>
+              <span>Produk</span>
+            </a>
+            <a
+              href="/inventory"
+              class="sidebar-item active flex items-center px-4 py-3 rounded-lg text-blue-600 bg-blue-50"
+            >
+              <i class="fas fa-clipboard-list mr-3 text-blue-600"></i>
+              <span>Supplier</span>
+            </a>
+            <a
+              href="/inventory_out"
+              class="sidebar-item flex items-center px-4 py-3 rounded-lg text-gray-700 hover:text-gray-900"
+            >
+              <i class="fas fa-clipboard-check mr-3 text-gray-500"></i>
+              <span>Supplier Out</span>
+            </a>
+            <a
+              href="/karyawan"
+              class="sidebar-item flex items-center px-4 py-3 rounded-lg text-gray-700 hover:text-gray-900"
+            >
+              <i class="fas fa-users mr-3 text-gray-500"></i>
+              <span>Karyawan</span>
+            </a>
+            <a
+              href="/dashboard_sales"
+              class="sidebar-item flex items-center px-4 py-3 rounded-lg text-gray-700 hover:text-gray-900"
+            >
+              <i class="fas fa-truck mr-3 text-gray-500"></i>
+              <span>Sales</span>
+            </a>
+          </nav>
+        </div>
+      </div>
+
+      <!-- Main Content -->
+      <div class="flex-1 overflow-y-auto p-6">
+        <!-- Filters Section -->
+        <div class="mb-6 flex items-center space-x-4">
+          <div class="w-64">
+            <label class="block text-sm font-medium text-gray-700 mb-1"
+              >Toko</label
+            >
+            <select
+              id="storeFilter"
+              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            >
+              <option value="all">Semua Toko</option>
+              <!-- Options will be loaded dynamically -->
+            </select>
+          </div>
+          <div class="w-64">
+            <label class="block text-sm font-medium text-gray-700 mb-1"
+              >Cari produk atau SKU</label
+            >
+            <input
+              type="text"
+              id="searchBox"
+              placeholder="Cari produk atau SKU"
+              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            />
+          </div>
+        </div>
+
+        <!-- Form Section -->
+        <div
+          class="bg-white rounded-xl shadow-sm border border-gray-200 mb-8 p-6"
+        >
+          <h2 class="text-lg font-semibold text-gray-800 mb-4">
+            Form Barang Masuk
+          </h2>
+          <div id="formMessage" class="hidden mb-4 p-3 rounded-lg"></div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Hidden ID Field -->
+            <input type="hidden" id="productId" />
+
+            <!-- Column 1 -->
+            <div class="space-y-4">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1"
+                  >Toko Tujuan *</label
+                >
+                <select
+                  id="comboStore"
+                  class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  required
+                >
+                  <option value="">Pilih toko tujuan</option>
+                </select>
+                <p class="text-red-500 text-sm mt-1 hidden" id="storeError">
+                  Toko wajib dipilih
+                </p>
+              </div>
+
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1"
+                  >Pilih Produk</label
+                >
+                <select
+                  id="comboProduk"
+                  class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                >
+                  <option value="">
+                    Pilih produk lama atau kosongkan untuk baru
+                  </option>
+                </select>
+              </div>
+
+              <div
+                id="productInfo"
+                class="hidden p-3 bg-green-50 border border-green-200 rounded-lg"
+              >
+                <div class="flex items-center">
+                  <i class="fas fa-info-circle text-green-600 mr-2"></i>
+                  <span class="text-green-700 font-medium"
+                    >Mode: Restock Produk Lama</span
+                  >
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1"
+                  >Nama Produk *</label
+                >
+                <input
+                  type="text"
+                  id="fieldNamaProduk"
+                  class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  required
+                />
+                <p class="text-red-500 text-sm mt-1 hidden" id="nameError">
+                  Nama Produk Wajib Diisi
+                </p>
+              </div>
+            </div>
+
+            <!-- Column 2 -->
+            <div class="space-y-4">
+              <div class="grid grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-1"
+                    >Jumlah *</label
+                  >
+                  <input
+                    type="number"
+                    id="jumlah"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    min="1"
+                    required
+                  />
+                  <p class="text-red-500 text-sm mt-1 hidden" id="jumlahError">
+                    Jumlah harus berupa angka positif
+                  </p>
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-1"
+                    >Supplier *</label
+                  >
+                  <input
+                    type="text"
+                    id="supplier"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    required
+                  />
+                  <p
+                    class="text-red-500 text-sm mt-1 hidden"
+                    id="supplierError"
+                  >
+                    Supplier wajib diisi
+                  </p>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-1"
+                    >Harga Beli *</label
+                  >
+                  <input
+                    type="text"
+                    id="fieldHargaBeli"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    required
+                  />
+                  <p class="text-red-500 text-sm mt-1 hidden" id="priceError">
+                    Harga beli harus berupa angka valid
+                  </p>
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-1"
+                    >Catatan</label
+                  >
+                  <input
+                    type="text"
+                    id="notes"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Form Buttons -->
+          <div class="mt-6 pt-6 border-t border-gray-200 flex space-x-3">
+            <button
+              id="btnSaveProduct"
+              class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors"
+            >
+              Simpan Produk
+            </button>
+            <button
+              id="btnUpdateProduct"
+              class="px-4 py-2 bg-yellow-500 hover:bg-yellow-600 text-white rounded-lg font-medium transition-colors hidden"
+            >
+              Update Produk
+            </button>
+            <button
+              id="btnClearForm"
+              class="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-lg font-medium transition-colors"
+            >
+              Clear
+            </button>
+          </div>
+
+          <!-- Edit Mode Indicator -->
+          <div
+            id="editModeIndicator"
+            class="hidden mt-4 p-3 bg-yellow-50 border border-yellow-200 rounded-lg"
+          >
+            <div class="flex items-center">
+              <i class="fas fa-edit text-yellow-600 mr-2"></i>
+              <span class="text-yellow-700 font-medium">Mode: Edit Produk</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Data Table Section -->
+        <div
+          class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden"
+        >
+          <div class="px-6 py-4 border-b border-gray-200">
+            <h2 class="text-lg font-semibold text-gray-800">
+              Histori Masuk Barang Produk Gudang
+            </h2>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+              <thead class="bg-gray-50">
+                <tr>
+                  <th
+                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    Kode SKU
+                  </th>
+                  <th
+                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    Nama Produk
+                  </th>
+                  <th
+                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    Toko Tujuan
+                  </th>
+                  <th
+                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    Supplier
+                  </th>
+                  <th
+                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    Masuk
+                  </th>
+                  <th
+                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    Harga Beli
+                  </th>
+                  <th
+                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    Lokasi Barang
+                  </th>
+                  <th
+                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    Tanggal
+                  </th>
+                  <th
+                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    Aksi
+                  </th>
+                </tr>
+              </thead>
+              <tbody
+                id="productTableBody"
+                class="bg-white divide-y divide-gray-200"
+              >
+                <!-- Data will be loaded here -->
+                <tr>
+                  <td colspan="9" class="px-6 py-8 text-center text-gray-500">
+                    <i
+                      class="fas fa-spinner fa-spin text-blue-500 text-lg mb-2"
+                    ></i>
+                    <p>Memuat data produk...</p>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Detail Modal -->
+    <div
+      id="detailModal"
+      class="fixed inset-0 z-50 overflow-y-auto hidden modal"
+    >
+      <div
+        class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0"
+      >
+        <div class="fixed inset-0 transition-opacity" aria-hidden="true">
+          <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+        </div>
+
+        <div
+          class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-2xl sm:w-full"
+        >
+          <div class="bg-gray-800 px-6 py-4">
+            <div class="flex items-center justify-between">
+              <h3 class="text-lg font-medium text-white">
+                Detail Barang Masuk
+              </h3>
+              <button
+                id="closeDetailModal"
+                class="text-gray-300 hover:text-white"
+              >
+                <i class="fas fa-times"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="bg-white px-6 py-6">
+            <div class="space-y-4" id="detailContent">
+              <!-- Detail content will be loaded here -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/inventory_functions.js') }}"></script>
+  </body>
+</html>

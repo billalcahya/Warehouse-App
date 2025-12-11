@@ -1,0 +1,62 @@
+.sidebar-item:hover {
+  background-color: #f3f4f6;
+}
+.sidebar-item.active {
+  background-color: #2563eb;
+  color: white;
+}
+.datatable-row:hover {
+  background-color: #f9fafb;
+}
+.modal {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+.action-btn {
+  transition: all 0.2s ease;
+}
+.action-btn:hover {
+  transform: translateY(-1px);
+}
+.form-input:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+.fade-in {
+  animation: fadeIn 0.3s ease-in;
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.required-field::after {
+  content: " *";
+  color: #ef4444;
+}
+.role-badge {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+.badge-admin {
+  background-color: #dbeafe;
+  color: #1e40af;
+}
+.badge-staff {
+  background-color: #d1fae5;
+  color: #065f46;
+}
+.password-toggle {
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.password-toggle:hover {
+  color: #2563eb;
+}

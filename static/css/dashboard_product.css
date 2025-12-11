@@ -1,0 +1,72 @@
+.sidebar-item:hover {
+  background-color: #f3f4f6;
+}
+.sidebar-item.active {
+  background-color: #2563eb;
+  color: white;
+}
+.datatable-row:hover {
+  background-color: #f9fafb;
+}
+.action-btn {
+  transition: all 0.2s ease;
+}
+.action-btn:hover {
+  transform: translateY(-1px);
+}
+.form-input:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+.status-badge {
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+.status-tersedia {
+  background-color: #d1fae5;
+  color: #065f46;
+}
+.status-menipis {
+  background-color: #fef3c7;
+  color: #92400e;
+}
+.status-habis {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+.badge-category {
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 500;
+  background-color: #e0e7ff;
+  color: #3730a3;
+}
+.required-field::after {
+  content: " *";
+  color: #ef4444;
+}
+.fade-in {
+  animation: fadeIn 0.3s ease-in;
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.stock-warning {
+  background-color: #fef3c7;
+  border-left: 4px solid #f59e0b;
+}
+.stock-danger {
+  background-color: #fee2e2;
+  border-left: 4px solid #ef4444;
+}

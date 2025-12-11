@@ -1,0 +1,41 @@
+.sidebar-item:hover {
+  background-color: #f3f4f6;
+}
+.sidebar-item.active {
+  background-color: #2563eb;
+  color: white;
+}
+.datatable-row:hover {
+  background-color: #f9fafb;
+}
+.modal {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+.action-btn {
+  transition: all 0.2s ease;
+}
+.action-btn:hover {
+  transform: translateY(-1px);
+}
+.form-input:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+.badge {
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+}
+.badge-success {
+  background-color: #d1fae5;
+  color: #065f46;
+}
+.badge-warning {
+  background-color: #fef3c7;
+  color: #92400e;
+}
+.badge-info {
+  background-color: #dbeafe;
+  color: #1e40af;
+}

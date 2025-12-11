@@ -1,0 +1,57 @@
+.sidebar-item:hover {
+  background-color: #f3f4f6;
+}
+.sidebar-item.active {
+  background-color: #2563eb;
+  color: white;
+}
+.datatable-row:hover {
+  background-color: #f9fafb;
+}
+.modal {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+.card-hover {
+  transition: all 0.3s ease;
+}
+.card-hover:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+}
+.progress-bar {
+  height: 6px;
+  border-radius: 3px;
+  overflow: hidden;
+}
+.fade-in {
+  animation: fadeIn 0.3s ease-in;
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 6px;
+}
+.dot-success {
+  background-color: #10b981;
+}
+.dot-warning {
+  background-color: #f59e0b;
+}
+.dot-danger {
+  background-color: #ef4444;
+}
+.dot-info {
+  background-color: #3b82f6;
+}
